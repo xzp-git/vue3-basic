@@ -1,6 +1,20 @@
 <template>
   <div id="#app">
     <img alt="Vue logo" src="./assets/logo.png">
+    <p>{{error}}</p>
+    <Suspense>
+        <template #default>
+          
+          <div>
+            <DogShow> </DogShow>
+          <AsyncShow></AsyncShow>
+          </div>
+        </template>
+        
+        <template #fallback>
+         <h1>Loading!!!!!!!!!!!!!...</h1>
+        </template>
+    </Suspense>
     <h1>{{ count }}</h1>
     <h1>{{ doubleCount }}</h1>
     <Modal :isOpen="flag" @close-modal="close">My Modal!!!!!!!</Modal>
@@ -20,10 +34,12 @@
 </template>
 
 <script lang="ts">
-import {  computed, reactive, toRefs, onMounted,onUnmounted, onUpdated, onRenderTriggered, watch, ref } from "vue"
+import {  computed, reactive, toRefs, onMounted,onUnmounted, onUpdated, onRenderTriggered, watch, ref, onErrorCaptured } from "vue"
 import updateMousePosition from "./hooks/updateMousePosition";
 import useUrlLoader from "./hooks/useUrlLoader";
 import Modal from "./components/Modal.vue";
+import AsyncShow from "./components/AsyncShow.vue";
+import DogShow from "./components/DogShow.vue";
 interface dataProps  {
   count:number,
   increase:() => void,
@@ -31,10 +47,10 @@ interface dataProps  {
   numbers:number[],
   person:{name?:string},
 }
-interface DogResult {
-  message: string;
-  status:string; 
-}
+// interface DogResult {
+//   message: string;
+//   status:string; 
+// }
 
 interface CatResult {
   id:string,
@@ -46,7 +62,11 @@ export default {
   name: 'App',
   components: {
     Modal,
+    AsyncShow,
+    DogShow
   },
+  
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   setup (  ) {
     // const count = ref(0)
     // const increase = () => {
@@ -109,6 +129,11 @@ export default {
     const close = () => {
       flag.value = false
     }
+    const err = ref(null)
+    onErrorCaptured( (e:any) => {
+        error.value = e
+        return true
+    })
     return {
       ...refData,
       titles,
@@ -121,7 +146,8 @@ export default {
       error,
       flag,
       open,
-      close
+      close,
+      err
     }
     
   } 
