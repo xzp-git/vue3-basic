@@ -14,7 +14,7 @@
 - 使用  标签包裹  传送传送渲染至 对应选择器的 DOM节点中
 ```html
 <teleport to="" ></teleport>
-<!-- to 里面写  类似 queryselect 的选择器  -->
+<!-- to 里面写  类似 queryselect中的选择器  -->
 ```
 ## Suspense 
 - 异步请求的困境
