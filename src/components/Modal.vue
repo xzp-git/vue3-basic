@@ -31,8 +31,11 @@ export default defineComponent({
 
 <style>
 #center{
-    width: 200px;
-    height:200px;
-    border: 1px solid #000;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;  
+    background-color: rgba(0, 0, 0, 0.4);
 }
 </style>
